@@ -1,0 +1,350 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ACEA004919F50DA400E9152A /* AsyncHttpRequest.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = ACEA004819F50DA400E9152A /* AsyncHttpRequest.h */; };
+		ACEA004B19F50DA400E9152A /* AsyncHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = ACEA004A19F50DA400E9152A /* AsyncHttpRequest.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		ACEA004319F50DA400E9152A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				ACEA004919F50DA400E9152A /* AsyncHttpRequest.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		ACEA004519F50DA400E9152A /* libAsyncHttpRequest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAsyncHttpRequest.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACEA004819F50DA400E9152A /* AsyncHttpRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AsyncHttpRequest.h; sourceTree = "<group>"; };
+		ACEA004A19F50DA400E9152A /* AsyncHttpRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AsyncHttpRequest.m; sourceTree = "<group>"; };
+		ACEA005019F50DA400E9152A /* AsyncHttpRequestTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AsyncHttpRequestTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACEA005319F50DA400E9152A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ACEA004219F50DA400E9152A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACEA004D19F50DA400E9152A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ACEA003C19F50DA400E9152A = {
+			isa = PBXGroup;
+			children = (
+				ACEA004719F50DA400E9152A /* AsyncHttpRequest */,
+				ACEA005119F50DA400E9152A /* AsyncHttpRequestTests */,
+				ACEA004619F50DA400E9152A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ACEA004619F50DA400E9152A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ACEA004519F50DA400E9152A /* libAsyncHttpRequest.a */,
+				ACEA005019F50DA400E9152A /* AsyncHttpRequestTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ACEA004719F50DA400E9152A /* AsyncHttpRequest */ = {
+			isa = PBXGroup;
+			children = (
+				ACEA004819F50DA400E9152A /* AsyncHttpRequest.h */,
+				ACEA004A19F50DA400E9152A /* AsyncHttpRequest.m */,
+			);
+			path = AsyncHttpRequest;
+			sourceTree = "<group>";
+		};
+		ACEA005119F50DA400E9152A /* AsyncHttpRequestTests */ = {
+			isa = PBXGroup;
+			children = (
+				ACEA005219F50DA400E9152A /* Supporting Files */,
+			);
+			path = AsyncHttpRequestTests;
+			sourceTree = "<group>";
+		};
+		ACEA005219F50DA400E9152A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACEA005319F50DA400E9152A /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ACEA004419F50DA400E9152A /* AsyncHttpRequest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACEA005619F50DA400E9152A /* Build configuration list for PBXNativeTarget "AsyncHttpRequest" */;
+			buildPhases = (
+				ACEA004119F50DA400E9152A /* Sources */,
+				ACEA004219F50DA400E9152A /* Frameworks */,
+				ACEA004319F50DA400E9152A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AsyncHttpRequest;
+			productName = AsyncHttpRequest;
+			productReference = ACEA004519F50DA400E9152A /* libAsyncHttpRequest.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		ACEA004F19F50DA400E9152A /* AsyncHttpRequestTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ACEA005919F50DA400E9152A /* Build configuration list for PBXNativeTarget "AsyncHttpRequestTests" */;
+			buildPhases = (
+				ACEA004C19F50DA400E9152A /* Sources */,
+				ACEA004D19F50DA400E9152A /* Frameworks */,
+				ACEA004E19F50DA400E9152A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AsyncHttpRequestTests;
+			productName = AsyncHttpRequestTests;
+			productReference = ACEA005019F50DA400E9152A /* AsyncHttpRequestTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ACEA003D19F50DA400E9152A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0600;
+				ORGANIZATIONNAME = "Vikram Rao";
+				TargetAttributes = {
+					ACEA004419F50DA400E9152A = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
+					ACEA004F19F50DA400E9152A = {
+						CreatedOnToolsVersion = 6.0.1;
+					};
+				};
+			};
+			buildConfigurationList = ACEA004019F50DA400E9152A /* Build configuration list for PBXProject "AsyncHttpRequest" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = ACEA003C19F50DA400E9152A;
+			productRefGroup = ACEA004619F50DA400E9152A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ACEA004419F50DA400E9152A /* AsyncHttpRequest */,
+				ACEA004F19F50DA400E9152A /* AsyncHttpRequestTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ACEA004E19F50DA400E9152A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ACEA004119F50DA400E9152A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ACEA004B19F50DA400E9152A /* AsyncHttpRequest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACEA004C19F50DA400E9152A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		ACEA005419F50DA400E9152A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		ACEA005519F50DA400E9152A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		ACEA005719F50DA400E9152A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ACEA005819F50DA400E9152A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		ACEA005A19F50DA400E9152A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AsyncHttpRequestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		ACEA005B19F50DA400E9152A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = AsyncHttpRequestTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ACEA004019F50DA400E9152A /* Build configuration list for PBXProject "AsyncHttpRequest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACEA005419F50DA400E9152A /* Debug */,
+				ACEA005519F50DA400E9152A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ACEA005619F50DA400E9152A /* Build configuration list for PBXNativeTarget "AsyncHttpRequest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACEA005719F50DA400E9152A /* Debug */,
+				ACEA005819F50DA400E9152A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		ACEA005919F50DA400E9152A /* Build configuration list for PBXNativeTarget "AsyncHttpRequestTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACEA005A19F50DA400E9152A /* Debug */,
+				ACEA005B19F50DA400E9152A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ACEA003D19F50DA400E9152A /* Project object */;
+}
