@@ -45,6 +45,13 @@
     [self connect:req];
 }
 
+- (void)sendStatusUpdate:(NSString *)message
+{
+    if (!self.statusBlock || self.statusBlock == NULL)
+        return;
+    self.statusBlock(message);
+}
+
 - (void) connect:(NSURLRequest *)request
 {
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
@@ -55,7 +62,7 @@
     self.conn = conn;
     [conn start];
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
-    self.statusBlock(@"Connecting...");
+    [self sendStatusUpdate:@"Connecting..."];
 }
 
 - (NSString *) getParamsString:(NSDictionary *)params
@@ -99,10 +106,10 @@
     [self initializeRequest:block statusBlock:statusBlock];
     NSString *paramsAsString = [self getParamsString:params];
     
-    self.statusBlock([NSString stringWithFormat:@"PARAMS - %@", paramsAsString]);
+    [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
     //    NSLog(@"URL = %@", url);
-    self.statusBlock([NSString stringWithFormat:@"URL - %@", url]);
+    [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     
     [self connect:req];
@@ -112,7 +119,7 @@
 {
     [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
     self.block(nil, nil, error);
-    self.statusBlock(error.description);
+    [self sendStatusUpdate:error.description];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
@@ -123,7 +130,7 @@
         id data = [NSJSONSerialization JSONObjectWithData:self.data options:0 error:&error];
         self.block(data, self.data, error);
     } else {
-        self.statusBlock(@"Finished downloading data");
+        [self sendStatusUpdate:@"Finished downloading data"];
     }
 }
 
@@ -140,13 +147,13 @@
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     [self.data appendData:data];
-    self.statusBlock([NSString stringWithFormat:@"Got %lu bytes", (unsigned long)self.data.length]);
+    [self sendStatusUpdate:[NSString stringWithFormat:@"Got %lu bytes", (unsigned long)self.data.length]];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
-    self.statusBlock(@"Got auth challenge");
+    [self sendStatusUpdate:@"Got auth challenge"];
 }
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
@@ -154,13 +161,13 @@
     //    NSLog(@"Got challenge - %@", challenge.protectionSpace.authenticationMethod);
     if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
     {
-        self.statusBlock(@"Ignoring SSL");
+        [self sendStatusUpdate:@"Ignoring SSL"];
         SecTrustRef trust = challenge.protectionSpace.serverTrust;
         NSURLCredential *cred = [NSURLCredential credentialForTrust:trust];
         [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
         return;
     }
-    self.statusBlock(@"Cancelling SSL");
+    [self sendStatusUpdate:@"Cancelling SSL"];
     [[challenge sender] cancelAuthenticationChallenge:challenge];
 }
 
