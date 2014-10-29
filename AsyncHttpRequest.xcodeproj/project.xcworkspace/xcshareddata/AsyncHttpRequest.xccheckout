@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2BCF7B0E-BB30-4A0B-8979-B739F8A4EB93</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0A18AB05665DF58CB99E2B4DD9C93B879D2A57EC</key>
+		<string>github.com:vikram-rao/AsyncHttpRequest.git</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0A18AB05665DF58CB99E2B4DD9C93B879D2A57EC</key>
+		<string>AsyncHttpRequest/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>github.com:vikram-rao/AsyncHttpRequest.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0A18AB05665DF58CB99E2B4DD9C93B879D2A57EC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0A18AB05665DF58CB99E2B4DD9C93B879D2A57EC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>AsyncHttpRequest</string>
+		</dict>
+	</array>
+</dict>
+</plist>

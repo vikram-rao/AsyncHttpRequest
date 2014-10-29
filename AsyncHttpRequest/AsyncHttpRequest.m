@@ -28,17 +28,34 @@
     self.statusBlock = statusBlock;
 }
 
+- (NSData *)getJsonEncodedParams:(NSDictionary *)params
+{
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&error];
+    if (error)
+        NSLog(@"%@",error);
+    return jsonData;
+}
+
 - (void)sendAsyncPostRequest:(NSString *)url
                       params:(NSDictionary *)params
+                        json:(BOOL)json
                        block:(void (^)(id, NSData *, NSError *))block
                  statusBlock:(void (^)(NSString *))statusBlock
 {
     [self initializeRequest:block statusBlock:statusBlock];
-    NSString *paramsAsString = [self getParamsString:params];
+
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSData *paramsAsData;
+    if (json) {
+        paramsAsData = [self getJsonEncodedParams:params];
+        [req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    } else {
+        NSString *paramsAsString = [self getUrlEncodedParams:params];
+        paramsAsData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
+    }
     [req setHTTPMethod:@"POST"];
-    
-    NSData *paramsAsData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)paramsAsData.length] forHTTPHeaderField:@"Content-length"];
     [req setHTTPBody:paramsAsData];
     
@@ -65,7 +82,7 @@
     [self sendStatusUpdate:@"Connecting..."];
 }
 
-- (NSString *) getParamsString:(NSDictionary *)params
+- (NSString *) getUrlEncodedParams:(NSDictionary *)params
 {
     //    NSLog(@"Sending - %@", params);
     NSMutableString *paramsAsString = [NSMutableString string];
@@ -104,7 +121,7 @@
                 statusBlock:(void (^)(NSString *))statusBlock
 {
     [self initializeRequest:block statusBlock:statusBlock];
-    NSString *paramsAsString = [self getParamsString:params];
+    NSString *paramsAsString = [self getUrlEncodedParams:params];
     
     [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
