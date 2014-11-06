@@ -84,7 +84,6 @@
 
 - (NSString *) getUrlEncodedParams:(NSDictionary *)params
 {
-    //    NSLog(@"Sending - %@", params);
     NSMutableString *paramsAsString = [NSMutableString string];
     BOOL firstParam = YES;
     for (NSString *key in params.allKeys) {
@@ -125,7 +124,6 @@
     
     [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
-    //    NSLog(@"URL = %@", url);
     [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
     
@@ -175,7 +173,6 @@
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
-    //    NSLog(@"Got challenge - %@", challenge.protectionSpace.authenticationMethod);
     if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
     {
         [self sendStatusUpdate:@"Ignoring SSL"];
