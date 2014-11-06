@@ -87,7 +87,9 @@
     NSMutableString *paramsAsString = [NSMutableString string];
     BOOL firstParam = YES;
     for (NSString *key in params.allKeys) {
-        NSString *value = [params valueForKey:key];
+        id value = [params valueForKey:key];
+        NSData *valueAsData = [NSJSONSerialization dataWithJSONObject:value options:0 error:NULL];
+        value = [[NSString alloc] initWithData:valueAsData encoding:NSUTF8StringEncoding];
         if (firstParam) {
             firstParam = NO;
         } else {
@@ -95,7 +97,6 @@
         }
         [paramsAsString appendString:[NSString stringWithFormat:@"%@=%@",key,[self getEscapedString:value]]];
     }
-    paramsAsString = [[paramsAsString stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding] mutableCopy];
     
     return paramsAsString;
 }
