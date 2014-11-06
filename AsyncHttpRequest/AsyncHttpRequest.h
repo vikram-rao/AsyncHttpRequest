@@ -17,6 +17,7 @@
 
 - (void)sendAsyncPostRequest:(NSString *)url
                       params:(NSDictionary *)params
+                        json:(BOOL)json
                        block:(void (^)(id, NSData *, NSError *))block
                  statusBlock:(void (^)(NSString *))statusBlock;
 

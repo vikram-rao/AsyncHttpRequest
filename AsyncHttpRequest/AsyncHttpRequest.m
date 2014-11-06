@@ -37,6 +37,26 @@
     return jsonData;
 }
 
+- (NSData *)getEncodedParams:(NSDictionary *)params json:(BOOL)json
+{
+    NSData *paramsAsData;
+    if (json) {
+        paramsAsData = [self getJsonEncodedParams:params];
+    } else {
+        NSString *paramsAsString = [self getUrlEncodedParams:params];
+        paramsAsData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
+    }
+    return paramsAsData;
+}
+
+- (void)setContentType:(NSMutableURLRequest *)req json:(BOOL)json
+{
+    if (json) {
+        [req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
+        [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    }
+}
+
 - (void)sendAsyncPostRequest:(NSString *)url
                       params:(NSDictionary *)params
                         json:(BOOL)json
@@ -46,15 +66,8 @@
     [self initializeRequest:block statusBlock:statusBlock];
 
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSData *paramsAsData;
-    if (json) {
-        paramsAsData = [self getJsonEncodedParams:params];
-        [req setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-        [req setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    } else {
-        NSString *paramsAsString = [self getUrlEncodedParams:params];
-        paramsAsData = [paramsAsString dataUsingEncoding:NSUTF8StringEncoding];
-    }
+    NSData *paramsAsData = [self getEncodedParams:params json:json];
+    [self setContentType:req json:json];
     [req setHTTPMethod:@"POST"];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)paramsAsData.length] forHTTPHeaderField:@"Content-length"];
     [req setHTTPBody:paramsAsData];
