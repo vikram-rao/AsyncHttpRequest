@@ -21,6 +21,17 @@
                        block:(void (^)(id, NSData *, NSError *))block
                  statusBlock:(void (^)(NSString *))statusBlock;
 
+- (void)sendAsyncPutRequest:(NSString *)url
+                     params:(NSDictionary *)params
+                       json:(BOOL)json
+                      block:(void (^)(id, NSData *, NSError *))block
+                statusBlock:(void (^)(NSString *))statusBlock;
+
+- (void)sendAsyncDeleteRequest:(NSString *)url
+                        params:(NSDictionary *)params
+                         block:(void (^)(id, NSData *, NSError *))block
+                   statusBlock:(void (^)(NSString *))statusBlock;
+
 - (void)cancel;
 
 @end

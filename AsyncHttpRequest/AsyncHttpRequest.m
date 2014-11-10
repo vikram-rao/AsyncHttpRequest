@@ -57,22 +57,35 @@
     }
 }
 
+- (void)sendUpdateRequest:(void (^)(NSString *))statusBlock block:(void (^)(id, NSData *, NSError *))block url:(NSString *)url json:(BOOL)json params:(NSDictionary *)params method:(NSString *)method
+{
+    [self initializeRequest:block statusBlock:statusBlock];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSData *paramsAsData = [self getEncodedParams:params json:json];
+    [self setContentType:req json:json];
+    [req setHTTPMethod:method];
+    [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)paramsAsData.length] forHTTPHeaderField:@"Content-length"];
+    [req setHTTPBody:paramsAsData];
+    
+    [self connect:req];
+}
+
 - (void)sendAsyncPostRequest:(NSString *)url
                       params:(NSDictionary *)params
                         json:(BOOL)json
                        block:(void (^)(id, NSData *, NSError *))block
                  statusBlock:(void (^)(NSString *))statusBlock
 {
-    [self initializeRequest:block statusBlock:statusBlock];
+    [self sendUpdateRequest:statusBlock block:block url:url json:json params:params method:@"POST"];
+}
 
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSData *paramsAsData = [self getEncodedParams:params json:json];
-    [self setContentType:req json:json];
-    [req setHTTPMethod:@"POST"];
-    [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)paramsAsData.length] forHTTPHeaderField:@"Content-length"];
-    [req setHTTPBody:paramsAsData];
-    
-    [self connect:req];
+- (void)sendAsyncPutRequest:(NSString *)url
+                     params:(NSDictionary *)params
+                       json:(BOOL)json
+                      block:(void (^)(id, NSData *, NSError *))block
+                statusBlock:(void (^)(NSString *))statusBlock
+{
+    [self sendUpdateRequest:statusBlock block:block url:url json:json params:params method:@"PUT"];
 }
 
 - (void)sendStatusUpdate:(NSString *)message
@@ -101,8 +114,11 @@
     BOOL firstParam = YES;
     for (NSString *key in params.allKeys) {
         id value = [params valueForKey:key];
-        NSData *valueAsData = [NSJSONSerialization dataWithJSONObject:value options:0 error:NULL];
-        value = [[NSString alloc] initWithData:valueAsData encoding:NSUTF8StringEncoding];
+        @try {
+            NSData *valueAsData = [NSJSONSerialization dataWithJSONObject:value options:0 error:NULL];
+            value = [[NSString alloc] initWithData:valueAsData encoding:NSUTF8StringEncoding];
+        }
+        @catch (NSException *exception) {}
         if (firstParam) {
             firstParam = NO;
         } else {
@@ -140,7 +156,22 @@
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
     [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
     NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [self connect:req];
+}
+
+- (void)sendAsyncDeleteRequest:(NSString *)url
+                        params:(NSDictionary *)params
+                         block:(void (^)(id, NSData *, NSError *))block
+                   statusBlock:(void (^)(NSString *))statusBlock
+{
+    [self initializeRequest:block statusBlock:statusBlock];
+    NSString *paramsAsString = [self getUrlEncodedParams:params];
     
+    [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
+    url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
+    [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [req setHTTPMethod:@"DELETE"];
     [self connect:req];
 }
 
