@@ -13,6 +13,7 @@
 
 @property (nonatomic) NSURLConnection *conn;
 @property (nonatomic) NSMutableData *data;
+@property (nonatomic) NSString *domain;
 @property (nonatomic, copy) void (^block)(id, NSData *, NSError *);
 @property (nonatomic, copy) void (^statusBlock)(NSString *);
 
@@ -60,7 +61,9 @@
 - (void)sendUpdateRequest:(void (^)(NSString *))statusBlock block:(void (^)(id, NSData *, NSError *))block url:(NSString *)url json:(BOOL)json params:(NSDictionary *)params method:(NSString *)method
 {
     [self initializeRequest:block statusBlock:statusBlock];
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    NSURL *urlRef = [NSURL URLWithString:url];
+    self.domain = [urlRef host];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:urlRef];
     NSData *paramsAsData = [self getEncodedParams:params json:json];
     [self setContentType:req json:json];
     [req setHTTPMethod:method];
@@ -155,7 +158,10 @@
     [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
     [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    NSURL *urlRef = [NSURL URLWithString:url];
+    self.domain = [urlRef host];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:urlRef];
     [self connect:req];
 }
 
@@ -170,7 +176,10 @@
     [self sendStatusUpdate:[NSString stringWithFormat:@"PARAMS - %@", paramsAsString]];
     url = [NSString stringWithFormat:@"%@?%@",url,paramsAsString];
     [self sendStatusUpdate:[NSString stringWithFormat:@"URL - %@", url]];
-    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    
+    NSURL *urlRef = [NSURL URLWithString:url];
+    self.domain = [urlRef host];
+    NSMutableURLRequest *req = [NSMutableURLRequest requestWithURL:urlRef];
     [req setHTTPMethod:@"DELETE"];
     [self connect:req];
 }
@@ -220,14 +229,62 @@
 {
     if([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust])
     {
-        [self sendStatusUpdate:@"Ignoring SSL"];
-        SecTrustRef trust = challenge.protectionSpace.serverTrust;
-        NSURLCredential *cred = [NSURLCredential credentialForTrust:trust];
-        [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
-        return;
+        [self sendStatusUpdate:[NSString stringWithFormat:@"Challenge from %@",challenge.protectionSpace.host]];
+        if ([challenge.protectionSpace.host isEqualToString:self.domain]) {
+            SecTrustRef trust = challenge.protectionSpace.serverTrust;
+            
+            int err = [self evaluateCertificate:trust];
+            
+            if (err == noErr) {
+                err = [self compareToPinnedCertificate:trust index:0 name:@"cert"];
+            }
+            
+            if (err == noErr) {
+                NSURLCredential *cred = [NSURLCredential credentialForTrust:trust];
+                [challenge.sender useCredential:cred forAuthenticationChallenge:challenge];
+                return;
+            }
+        }
     }
     [self sendStatusUpdate:@"Cancelling SSL"];
     [[challenge sender] cancelAuthenticationChallenge:challenge];
+}
+
+- (int) evaluateCertificate:(SecTrustRef) trust
+{
+    SecCertificateRef caCert = [self certRefFromDerNamed:@"cacert"];
+    SecCertificateRef caCertArray[1] = { caCert };
+    CFArrayRef caCerts = CFArrayCreate(NULL, (void *)caCertArray, 1, NULL);
+    int err = SecTrustSetAnchorCertificates(trust, caCerts);
+    if (err != noErr) {
+        return err;
+    }
+    
+    SecTrustResultType trustResult = 0;
+    err = SecTrustEvaluate(trust, &trustResult);
+    if (err == noErr)
+        err = ((trustResult == kSecTrustResultProceed) || (trustResult == kSecTrustResultUnspecified)) ? noErr : 1;
+    return err;
+}
+
+- (int) compareToPinnedCertificate:(SecTrustRef) trust
+                              index:(int)index
+                               name:(NSString *) name
+{
+    SecCertificateRef certificate = SecTrustGetCertificateAtIndex(trust, index);
+    NSData *remoteCertificateData = CFBridgingRelease(SecCertificateCopyData(certificate));
+    NSString *cerPath = [[NSBundle mainBundle] pathForResource:name ofType:@"der"];
+    NSData *localCertData = [NSData dataWithContentsOfFile:cerPath];
+    return [remoteCertificateData isEqualToData:localCertData] ? 0 : 1;
+}
+
+- (SecCertificateRef)certRefFromDerNamed:(NSString*)derFileName
+{
+    NSString *thePath = [[NSBundle mainBundle] pathForResource:derFileName ofType:@"der"];
+    NSData *certData = [[NSData alloc] initWithContentsOfFile:thePath];
+    CFDataRef certDataRef = (__bridge_retained CFDataRef)certData;
+    SecCertificateRef cert = SecCertificateCreateWithData(NULL, certDataRef);
+    return cert;
 }
 
 - (void)cancel
