@@ -267,20 +267,31 @@
     return err;
 }
 
+- (NSString *) pathForResource:(NSString *)name ofType:(NSString *)type
+{
+    NSString *path;
+    for (NSBundle *bundle in [NSBundle allBundles]) {
+        path = [bundle pathForResource:name ofType:type];
+        if (path)
+            break;
+    }
+    return path;
+}
+
 - (int) compareToPinnedCertificate:(SecTrustRef) trust
                               index:(int)index
                                name:(NSString *) name
 {
     SecCertificateRef certificate = SecTrustGetCertificateAtIndex(trust, index);
     NSData *remoteCertificateData = CFBridgingRelease(SecCertificateCopyData(certificate));
-    NSString *cerPath = [[NSBundle mainBundle] pathForResource:name ofType:@"der"];
+    NSString *cerPath = [self pathForResource:name ofType:@"der"];
     NSData *localCertData = [NSData dataWithContentsOfFile:cerPath];
     return [remoteCertificateData isEqualToData:localCertData] ? 0 : 1;
 }
 
 - (SecCertificateRef)certRefFromDerNamed:(NSString*)derFileName
 {
-    NSString *thePath = [[NSBundle mainBundle] pathForResource:derFileName ofType:@"der"];
+    NSString *thePath = [self pathForResource:derFileName ofType:@"der"];
     NSData *certData = [[NSData alloc] initWithContentsOfFile:thePath];
     CFDataRef certDataRef = (__bridge_retained CFDataRef)certData;
     SecCertificateRef cert = SecCertificateCreateWithData(NULL, certDataRef);
